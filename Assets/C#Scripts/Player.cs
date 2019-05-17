@@ -18,28 +18,24 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.x <= _gameSceneManager.LeftCameraWorldPos)
-        {
-            //左端
-            transform.position = new Vector3(_gameSceneManager.LeftCameraWorldPos, transform.position.y);
-        }
-
-        if (transform.position.x >= _gameSceneManager.RightCameraWorldPos)
-        {
-            //右端
-            transform.position = new Vector3(_gameSceneManager.RightCameraWorldPos, transform.position.y);
-        }
-
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             //左矢印キーが押されたら
-            transform.Translate(-_speed, 0, 0);
+            Vector2 pos = transform.position;
+            transform.position =
+                new Vector3(
+                    Mathf.Clamp(pos.x - _speed, _gameSceneManager.LeftCameraWorldPos,
+                        _gameSceneManager.RightCameraWorldPos), pos.y);
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
             //右矢印キーが押されたら
-            transform.Translate(_speed, 0, 0);
+            Vector2 pos = transform.position;
+            transform.position =
+                new Vector3(
+                    Mathf.Clamp(pos.x - _speed, _gameSceneManager.LeftCameraWorldPos,
+                        _gameSceneManager.RightCameraWorldPos), pos.y);
         }
     }
 }
