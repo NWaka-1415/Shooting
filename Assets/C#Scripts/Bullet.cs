@@ -26,9 +26,9 @@ public class Bullet : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             //敵を消し
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
             //自分も消す
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

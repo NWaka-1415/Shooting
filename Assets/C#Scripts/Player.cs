@@ -88,7 +88,11 @@ public class Player : MonoBehaviour
             //ぶつかったのがEnemyだったら
             Enemy enemy = other.gameObject.GetComponent<Enemy>();
             _hp -= enemy.AttackPower;
-            if (_hp <= 0) _hp = 0;
+            if (_hp <= 0)
+            {
+                _hp = 0;
+                _gameSceneManager.GameOver();
+            }
             _gameSceneManager.SetHitPoint(_hp);
         }
     }
