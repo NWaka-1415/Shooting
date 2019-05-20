@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GameSceneManager : MonoBehaviour
 {
-    [SerializeField] private Text _hpText;
+    [SerializeField] private Text _hpText = null;
     [SerializeField] private GameObject _enemyPrefab = null;
 
     [SerializeField] private GameObject _backGroundPrefab = null;
@@ -112,8 +112,10 @@ public class GameSceneManager : MonoBehaviour
             }
         }
 
+        //Enemy
         foreach (Enemy enemy in _enemies)
         {
+            if (enemy.CheckPos(_bottomCameraWorldPos)) GameOver();
             if (!enemy.gameObject.activeSelf) enemy.Initialize(ResetPos());
         }
 
