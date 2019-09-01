@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        #region PC
+
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             //左矢印キーが押されたら
@@ -71,6 +73,8 @@ public class Player : MonoBehaviour
             //ポジションをShooterにする
             shotInstance.transform.position = gameObject.transform.position;
         }
+
+        #endregion
     }
 
     /// <summary>
@@ -89,6 +93,7 @@ public class Player : MonoBehaviour
                 _hp = 0;
                 GameSceneManager.Instance.GameOver();
             }
+
             GameSceneManager.Instance.SetHitPoint(_hp);
         }
     }
