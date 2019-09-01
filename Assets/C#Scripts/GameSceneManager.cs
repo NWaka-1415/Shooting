@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class GameSceneManager : MonoBehaviour
 {
@@ -21,6 +23,10 @@ public class GameSceneManager : MonoBehaviour
 
     private Camera _camera;
 
+    private static GameSceneManager _instance = null;
+
+    public static GameSceneManager Instance => _instance;
+
     private bool _isGameOver;
     private bool _isGameClear;
 
@@ -35,6 +41,12 @@ public class GameSceneManager : MonoBehaviour
 
     private List<Enemy> _enemies;
     private List<BackGroundObjects> _backGroundObjects;
+
+    private void Awake()
+    {
+        if (_instance == null) _instance = this;
+        else if (_instance != this) Destroy(this.gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()

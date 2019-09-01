@@ -13,16 +13,12 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject _shotPrefab = null;
 
-    private GameSceneManager _gameSceneManager;
-
     // Start is called before the first frame update
     void Start()
     {
         _speed = 0.1f;
         _hp = 100;
-        _gameSceneManager = GameObject.Find("GameSceneManager").GetComponent<GameSceneManager>();
-        if (_gameSceneManager == null) Debug.LogError("Error!");
-        _gameSceneManager.SetHitPoint(_hp);
+        GameSceneManager.Instance.SetHitPoint(_hp);
     }
 
     // Update is called once per frame
@@ -34,8 +30,8 @@ public class Player : MonoBehaviour
             Vector2 pos = transform.position;
             transform.position =
                 new Vector3(
-                    Mathf.Clamp(pos.x - _speed, _gameSceneManager.LeftCameraWorldPos,
-                        _gameSceneManager.RightCameraWorldPos), pos.y);
+                    Mathf.Clamp(pos.x - _speed, GameSceneManager.Instance.LeftCameraWorldPos,
+                        GameSceneManager.Instance.RightCameraWorldPos), pos.y);
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
@@ -44,8 +40,8 @@ public class Player : MonoBehaviour
             Vector2 pos = transform.position;
             transform.position =
                 new Vector3(
-                    Mathf.Clamp(pos.x + _speed, _gameSceneManager.LeftCameraWorldPos,
-                        _gameSceneManager.RightCameraWorldPos), pos.y);
+                    Mathf.Clamp(pos.x + _speed, GameSceneManager.Instance.LeftCameraWorldPos,
+                        GameSceneManager.Instance.RightCameraWorldPos), pos.y);
         }
 
         if (Input.GetKey(KeyCode.UpArrow))
@@ -54,8 +50,8 @@ public class Player : MonoBehaviour
             Vector2 pos = transform.position;
             transform.position =
                 new Vector3(pos.x,
-                    Mathf.Clamp(pos.y + _speed, _gameSceneManager.BottomCameraWorldPos,
-                        _gameSceneManager.TopCameraWorldPos));
+                    Mathf.Clamp(pos.y + _speed, GameSceneManager.Instance.BottomCameraWorldPos,
+                        GameSceneManager.Instance.TopCameraWorldPos));
         }
 
         if (Input.GetKey(KeyCode.DownArrow))
@@ -64,8 +60,8 @@ public class Player : MonoBehaviour
             Vector2 pos = transform.position;
             transform.position =
                 new Vector3(pos.x,
-                    Mathf.Clamp(pos.y - _speed, _gameSceneManager.BottomCameraWorldPos,
-                        _gameSceneManager.TopCameraWorldPos));
+                    Mathf.Clamp(pos.y - _speed, GameSceneManager.Instance.BottomCameraWorldPos,
+                        GameSceneManager.Instance.TopCameraWorldPos));
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -91,9 +87,9 @@ public class Player : MonoBehaviour
             if (_hp <= 0)
             {
                 _hp = 0;
-                _gameSceneManager.GameOver();
+                GameSceneManager.Instance.GameOver();
             }
-            _gameSceneManager.SetHitPoint(_hp);
+            GameSceneManager.Instance.SetHitPoint(_hp);
         }
     }
 }
