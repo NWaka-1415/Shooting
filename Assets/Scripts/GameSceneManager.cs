@@ -51,6 +51,8 @@ public class GameSceneManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        RoomController.Instance.GoToRoom(RoomController.Room.Gaming);
+        
         _isGameOver = false;
         _isGameClear = false;
         _time = 0.5f;

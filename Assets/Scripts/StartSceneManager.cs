@@ -10,6 +10,7 @@ public class StartSceneManager : MonoBehaviour
 
     private void Start()
     {
+        RoomController.Instance.GoToRoom(RoomController.Room.Start);
         _isClicked = false;
     }
 
