@@ -17,7 +17,7 @@ public class StartSceneManager : MonoBehaviour
     void Update()
     {
         if(_isClicked) return;
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.anyKeyDown)
         {
             //ゲームシーンに遷移
             SceneManager.LoadSceneAsync("GameScene");
