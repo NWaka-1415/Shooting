@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Controller;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -64,7 +65,7 @@ public class Player : MonoBehaviour
         _hp = 100;
         _shot = false;
         _currentInterval = 0f;
-        GameSceneManager.Instance.SetHitPoint(_hp);
+        GameSceneController.Instance.SetHitPoint(_hp);
     }
 
     protected void CalcFiringInterval()
@@ -82,9 +83,9 @@ public class Player : MonoBehaviour
     {
         if (_shot) return;
         //ゲームオブジェクトを作成
-        GameObject shotInstance = Instantiate(_shotPrefab);
+        Bullet bulletInstanceScript = Instantiate(_shotPrefab).GetComponent<Bullet>();
         //ポジションをShooterにする
-        shotInstance.transform.position = gameObject.transform.position;
+        bulletInstanceScript.Initialize(transform.position);
         _shot = true;
     }
 
@@ -96,26 +97,26 @@ public class Player : MonoBehaviour
             case Direction.Top:
                 transform.position =
                     new Vector3(pos.x,
-                        Mathf.Clamp(pos.y + _speed, GameSceneManager.Instance.BottomCameraWorldPos,
-                            GameSceneManager.Instance.TopCameraWorldPos));
+                        Mathf.Clamp(pos.y + _speed, GameSceneController.Instance.BottomCameraWorldPos,
+                            GameSceneController.Instance.TopCameraWorldPos));
                 break;
             case Direction.Bottom:
                 transform.position =
                     new Vector3(pos.x,
-                        Mathf.Clamp(pos.y - _speed, GameSceneManager.Instance.BottomCameraWorldPos,
-                            GameSceneManager.Instance.TopCameraWorldPos));
+                        Mathf.Clamp(pos.y - _speed, GameSceneController.Instance.BottomCameraWorldPos,
+                            GameSceneController.Instance.TopCameraWorldPos));
                 break;
             case Direction.Left:
                 transform.position =
                     new Vector3(
-                        Mathf.Clamp(pos.x - _speed, GameSceneManager.Instance.LeftCameraWorldPos,
-                            GameSceneManager.Instance.RightCameraWorldPos), pos.y);
+                        Mathf.Clamp(pos.x - _speed, GameSceneController.Instance.LeftCameraWorldPos,
+                            GameSceneController.Instance.RightCameraWorldPos), pos.y);
                 break;
             case Direction.Right:
                 transform.position =
                     new Vector3(
-                        Mathf.Clamp(pos.x + _speed, GameSceneManager.Instance.LeftCameraWorldPos,
-                            GameSceneManager.Instance.RightCameraWorldPos), pos.y);
+                        Mathf.Clamp(pos.x + _speed, GameSceneController.Instance.LeftCameraWorldPos,
+                            GameSceneController.Instance.RightCameraWorldPos), pos.y);
                 break;
         }
     }
@@ -134,10 +135,10 @@ public class Player : MonoBehaviour
             if (_hp <= 0)
             {
                 _hp = 0;
-                GameSceneManager.Instance.GameOver();
+                GameSceneController.Instance.GameOver();
             }
 
-            GameSceneManager.Instance.SetHitPoint(_hp);
+            GameSceneController.Instance.SetHitPoint(_hp);
         }
     }
 }
