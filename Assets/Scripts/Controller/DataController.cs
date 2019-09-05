@@ -7,8 +7,6 @@ namespace Controller
         private static DataController _instance = null;
 
         public static DataController Instance => _instance;
-    
-    
 
         private void Awake()
         {

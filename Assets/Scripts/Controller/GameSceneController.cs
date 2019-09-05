@@ -30,6 +30,7 @@ namespace Controller
         public static GameSceneController Instance => _instance;
 
         private bool _isGameOver;
+        public bool IsGameOver => _isGameOver;
         private bool _isGameClear;
 
         private float _time;
@@ -55,8 +56,6 @@ namespace Controller
         // Start is called before the first frame update
         void Start()
         {
-            RoomController.Instance.GoToRoom(RoomController.Room.Gaming);
-        
             _isGameOver = false;
             _isGameClear = false;
             _time = 0.5f;
@@ -141,7 +140,7 @@ namespace Controller
             }
 
             //スタート画面に戻す
-            if (_time <= 0) SceneManager.LoadSceneAsync("StartScene");
+            if (_time <= 0) RoomController.Instance.GoToRoom(RoomController.Room.Start);
             if (_isGameClear) _time -= Time.deltaTime;
             else if (_isGameOver) _time -= Time.deltaTime;
         }

@@ -1,26 +1,34 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Controller
 {
     public class StartSceneController : MonoBehaviour
     {
+        [SerializeField] private Text pressText = null;
+
         private bool _isClicked;
 
         private void Start()
         {
-            RoomController.Instance.GoToRoom(RoomController.Room.Start);
+#if UNITY_ANDROID
+            pressText.text = "Touch any position";
+#else
+            pressText.text = "Press any key";
+#endif
+
             _isClicked = false;
         }
 
         // Update is called once per frame
         void Update()
         {
-            if(_isClicked) return;
+            if (_isClicked) return;
             if (Input.anyKeyDown)
             {
                 //ゲームシーンに遷移
-                SceneManager.LoadSceneAsync("GameScene");
+                RoomController.Instance.GoToRoom(RoomController.Room.Gaming);
                 _isClicked = true;
             }
         }

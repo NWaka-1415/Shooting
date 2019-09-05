@@ -19,8 +19,17 @@ public class Player : MonoBehaviour
     /// </summary>
     [SerializeField] private float firingInterval = 0.5f;
 
+    [SerializeField] private SpriteRenderer spriteRenderer = null;
+    [SerializeField] private int fadeCount = 2;
+
+    private Color _myColor;
+    private float _alpha;
+    private bool _fadeReactionFlag;
+    private bool _fadeUp;
+    private int _fadingCount;
+
     private float _currentInterval;
-    private bool _shot;
+    private bool _shotFlag;
 
     protected enum Direction
     {
@@ -40,6 +49,9 @@ public class Player : MonoBehaviour
     void Update()
     {
         CalcFiringInterval();
+        if (_fadeReactionFlag) FadeReaction();
+        else spriteRenderer.color = _myColor;
+
         #region PC
 
         //左矢印キーが押されたら
@@ -63,17 +75,22 @@ public class Player : MonoBehaviour
     {
         _speed = 0.1f;
         _hp = 100;
-        _shot = false;
+        _shotFlag = false;
+        _fadeReactionFlag = false;
+        _fadeUp = false;
         _currentInterval = 0f;
+        _fadingCount = 0;
+        _myColor = spriteRenderer.color;
+        _alpha = _myColor.a;
         GameSceneController.Instance.SetHitPoint(_hp);
     }
 
     protected void CalcFiringInterval()
     {
-        if (!_shot) return;
+        if (!_shotFlag) return;
         if (_currentInterval >= firingInterval)
         {
-            _shot = false;
+            _shotFlag = false;
             _currentInterval = 0f;
         }
         else _currentInterval += Time.deltaTime;
@@ -81,12 +98,13 @@ public class Player : MonoBehaviour
 
     protected void Shoot()
     {
-        if (_shot) return;
+        if(GameSceneController.Instance.IsGameOver) return;
+        if (_shotFlag) return;
         //ゲームオブジェクトを作成
         Bullet bulletInstanceScript = Instantiate(_shotPrefab).GetComponent<Bullet>();
         //ポジションをShooterにする
         bulletInstanceScript.Initialize(transform.position);
-        _shot = true;
+        _shotFlag = true;
     }
 
     protected void Move(Direction direction)
@@ -121,16 +139,45 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void FadeReaction()
+    {
+        if (_fadeUp)
+        {
+            _alpha += 0.25f;
+            if (_alpha >= 1)
+            {
+                _fadeUp = false;
+                _fadingCount++;
+            }
+        }
+        else
+        {
+            _alpha -= 0.25f;
+            if (_alpha <= 0) _fadeUp = true;
+        }
+
+        spriteRenderer.color = new Color(_myColor.r, _myColor.g - 50, _myColor.b - 50, _alpha);
+        if (_fadingCount >= fadeCount)
+        {
+            _fadingCount = 0;
+            _fadeUp = false;
+            _alpha = _myColor.a;
+            _fadeReactionFlag = false;
+        }
+    }
+
     /// <summary>
     /// 当たり判定
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (_fadeReactionFlag) return;
         if (other.CompareTag("Enemy"))
         {
             //ぶつかったのがEnemyだったら
             Enemy enemy = other.gameObject.GetComponent<Enemy>();
+            _fadeReactionFlag = true;
             _hp -= enemy.AttackPower;
             if (_hp <= 0)
             {

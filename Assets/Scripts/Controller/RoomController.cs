@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Controller
 {
@@ -16,6 +18,8 @@ namespace Controller
             Result
         }
 
+        private Dictionary<Room, string> _rooms;
+
         private Room _currentRoom;
 
         public Room CurrentRoom => _currentRoom;
@@ -29,11 +33,31 @@ namespace Controller
         private void Start()
         {
             DontDestroyOnLoad(gameObject);
+            SetRooms();
+            foreach (KeyValuePair<Room,string> room in _rooms)
+            {
+                if (room.Value.Equals(SceneManager.GetActiveScene().name))
+                {
+                    _currentRoom = room.Key;
+                    Debug.Log(_currentRoom);
+                    break;
+                }
+            }
+        }
+
+        private void SetRooms()
+        {
+            _rooms = new Dictionary<Room, string>();
+            _rooms.Add(Room.Start, "StartScene");
+            _rooms.Add(Room.Menu, "");
+            _rooms.Add(Room.Gaming, "GameScene");
+            _rooms.Add(Room.Result, "Result");
         }
 
         public void GoToRoom(Room room)
         {
             _currentRoom = room;
+            SceneManager.LoadSceneAsync(_rooms[_currentRoom]);
         }
     }
 }
