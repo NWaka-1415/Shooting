@@ -34,7 +34,7 @@ namespace Controller
         {
             DontDestroyOnLoad(gameObject);
             SetRooms();
-            foreach (KeyValuePair<Room,string> room in _rooms)
+            foreach (KeyValuePair<Room, string> room in _rooms)
             {
                 if (room.Value.Equals(SceneManager.GetActiveScene().name))
                 {
@@ -49,14 +49,15 @@ namespace Controller
         {
             _rooms = new Dictionary<Room, string>();
             _rooms.Add(Room.Start, "StartScene");
-            _rooms.Add(Room.Menu, "");
+            _rooms.Add(Room.Menu, "MenuScene");
             _rooms.Add(Room.Gaming, "GameScene");
-            _rooms.Add(Room.Result, "Result");
+            _rooms.Add(Room.Result, "ResultScene");
         }
 
         public void GoToRoom(Room room)
         {
             _currentRoom = room;
+            CursorController.Instance.SetCursorVisible(_currentRoom);
             SceneManager.LoadSceneAsync(_rooms[_currentRoom]);
         }
     }

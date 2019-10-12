@@ -28,7 +28,7 @@ namespace Controller
             if (Input.anyKeyDown)
             {
                 //ゲームシーンに遷移
-                RoomController.Instance.GoToRoom(RoomController.Room.Gaming);
+                RoomController.Instance.GoToRoom(RoomController.Room.Menu);
                 _isClicked = true;
             }
         }

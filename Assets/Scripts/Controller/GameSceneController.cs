@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Objects;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -10,7 +12,7 @@ namespace Controller
     {
         [SerializeField] private Text _hpText = null;
         [SerializeField] private Text killCountText = null;
-        
+
         [SerializeField] private GameObject _enemyPrefab = null;
 
         [SerializeField] private GameObject _backGroundPrefab = null;
@@ -20,8 +22,12 @@ namespace Controller
         [SerializeField] Sprite[] _rockAndPlanetSprites = new Sprite[0];
 
         [SerializeField] private int _enemyNumber = 10;
+        [SerializeField] private GameObject pausePanel = null;
         [SerializeField] private GameObject _gameOverPanel = null;
         [SerializeField] private GameObject _gameClearPanel = null;
+
+        [SerializeField] private Button pauseButton = null;
+        [SerializeField] private Button okButton = null;
 
         private Camera _camera;
 
@@ -33,6 +39,10 @@ namespace Controller
         public bool IsGameOver => _isGameOver;
         private bool _isGameClear;
 
+        private bool _isPause;
+
+        public bool IsPause => _isPause;
+
         private float _time;
 
         private float _leftCameraWorldPos;
@@ -40,8 +50,6 @@ namespace Controller
         private float _topCameraWorldPos;
         private float _bottomCameraWorldPos;
 
-        private int _killCount;
-        
         private Vector2[] _backGroundDefaultPos;
 
         private List<Enemy> _enemies;
@@ -56,10 +64,12 @@ namespace Controller
         // Start is called before the first frame update
         void Start()
         {
+            _isPause = false;
             _isGameOver = false;
             _isGameClear = false;
             _time = 0.5f;
-            _killCount = 0;
+            DataController.Instance.ResetInstance();
+            pausePanel.SetActive(false);
             _gameOverPanel.SetActive(false);
             _gameClearPanel.SetActive(false);
 
@@ -68,8 +78,11 @@ namespace Controller
             _rightCameraWorldPos = _camera.ViewportToWorldPoint(new Vector3(1, 1)).x;
             _topCameraWorldPos = _camera.ViewportToWorldPoint(new Vector3(1, 1)).y;
             _bottomCameraWorldPos = _camera.ViewportToWorldPoint(new Vector3(0, 0)).y;
-            
+
             SetKillCount();
+
+            pauseButton.onClick.AddListener(OnclickPause);
+            okButton.onClick.AddListener(OnclickOkOnPause);
 
             _backGroundDefaultPos = new Vector2[_backGroundImages.Length];
             for (int i = 0; i < _backGroundImages.Length; i++)
@@ -105,6 +118,7 @@ namespace Controller
 
         private void Update()
         {
+            if (_isPause) return;
             //背景
             for (int i = 0; i < _backGroundImages.Length; i++)
             {
@@ -139,8 +153,8 @@ namespace Controller
                 if (!enemy.gameObject.activeSelf) enemy.Initialize(ResetPos());
             }
 
-            //スタート画面に戻す
-            if (_time <= 0) RoomController.Instance.GoToRoom(RoomController.Room.Start);
+            //リザルト画面へ遷移
+            if (_time <= 0) RoomController.Instance.GoToRoom(RoomController.Room.Result);
             if (_isGameClear) _time -= Time.deltaTime;
             else if (_isGameOver) _time -= Time.deltaTime;
         }
@@ -169,7 +183,7 @@ namespace Controller
         /// </summary>
         public void AddKillCount()
         {
-            _killCount++;
+            DataController.Instance.AddKillCount();
             SetKillCount();
         }
 
@@ -178,7 +192,28 @@ namespace Controller
         /// </summary>
         private void SetKillCount()
         {
-            killCountText.text = $"{_killCount:0000}";
+            killCountText.text = $"{DataController.Instance.KillCount:0000}";
+        }
+
+        /// <summary>
+        /// ポーズボタンが押された際
+        /// </summary>
+        private void OnclickPause()
+        {
+            pauseButton.interactable = false;
+            _isPause = !_isPause;
+            pausePanel.SetActive(_isPause);
+            Time.timeScale = _isPause ? 0f : 1f;
+            pauseButton.interactable = true;
+        }
+
+        /// <summary>
+        /// ポーズ画面のOKボタンが押された際
+        /// </summary>
+        private void OnclickOkOnPause()
+        {
+            RoomController.Instance.GoToRoom(RoomController.Room.Menu);
+            Time.timeScale = 1f;
         }
 
         public void GameOver()
