@@ -19,6 +19,7 @@ namespace Controller
         [SerializeField] private GameObject stageButtonPrefab = null; //そのうちresourceロードにするかも
         [SerializeField] private GameObject stageSelectZone = null;
         [SerializeField] private Button okButton = null;
+        [SerializeField] private Button backToTitleButton = null;
         [SerializeField] float[] xAxises = new float[2];
         [SerializeField] private float yAxisStartPos = 0;
         [SerializeField] private float yAxisDuration = 10;
@@ -35,6 +36,7 @@ namespace Controller
             Debug.Log($"{_stageNumber}個のステージを作成します。");
             SetStageButtons();
             okButton.onClick.AddListener(OnclickOk);
+            backToTitleButton.onClick.AddListener(OnclickBack);
         }
 
         private void SetStageButtons()
@@ -62,6 +64,11 @@ namespace Controller
         private void OnclickOk()
         {
             RoomController.Instance.GoToRoom(RoomController.Room.Gaming);
+        }
+
+        private void OnclickBack()
+        {
+            RoomController.Instance.GoToRoom(RoomController.Room.Start);
         }
     }
 }

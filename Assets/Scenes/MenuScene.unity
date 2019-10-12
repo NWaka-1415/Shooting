@@ -120,6 +120,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &62708453 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5515714310825424707, guid: fcf785e0f822cf043aa19fe1212e1468,
+    type: 3}
+  m_PrefabInstance: {fileID: 1556634094}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &100487950
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,7 +317,7 @@ MonoBehaviour:
     type: 3}
   stageSelectZone: {fileID: 2085307545}
   okButton: {fileID: 1391162043}
-  stageNumber: 5
+  backToTitleButton: {fileID: 62708453}
   xAxises:
   - -45
   - 60

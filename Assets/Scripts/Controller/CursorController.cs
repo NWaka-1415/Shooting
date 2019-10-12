@@ -23,6 +23,7 @@ namespace Controller
 
         private void Start()
         {
+            DontDestroyOnLoad(gameObject);
             _prevPos = Input.mousePosition;
             _visibleMode = RoomController.Instance.CurrentRoom != RoomController.Room.Gaming;
         }
