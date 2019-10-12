@@ -38,7 +38,8 @@ namespace Controller
             _killCount = 0;
             _selectStage = 0;
             _score = 0;
-            _stageData = CSVController.LoadCSV("stageData");
+            _stageData = CSVController.LoadCSV("stageData","csv/");
+            Debug.Log(_stageData);
         }
 
         public void ResetInstance()

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Controller;
 
 namespace Stage
@@ -39,7 +40,7 @@ namespace Stage
         public Stage(int stageNumber)
         {
             List<string[]> stageData = DataController.Instance.StageData;
-            _stageType = (StageType) int.Parse(stageData[stageNumber][0]);
+            Enum.TryParse(stageData[stageNumber][0], out _stageType);
             _enemyCount = int.Parse(stageData[stageNumber][1]);
             _limitTime = int.Parse(stageData[stageNumber][2]);
         }

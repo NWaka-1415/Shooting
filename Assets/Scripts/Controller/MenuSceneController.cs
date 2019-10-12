@@ -31,9 +31,9 @@ namespace Controller
 
         private void Start()
         {
-            SetStageButtons();
             _stageNumber = DataController.Instance.StageData.Count;
             Debug.Log($"{_stageNumber}個のステージを作成します。");
+            SetStageButtons();
             okButton.onClick.AddListener(OnclickOk);
         }
 
