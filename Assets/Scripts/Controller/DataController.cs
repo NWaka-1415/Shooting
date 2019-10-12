@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Controller
 {
@@ -20,10 +21,16 @@ namespace Controller
 
         public int Score => _score;
 
+        private List<string[]> _stageData;
+
+        public List<string[]> StageData => _stageData;
+
         private void Awake()
         {
             if (_instance == null) _instance = this;
             else if (_instance != this) Destroy(gameObject);
+            
+            Initialize();
         }
 
         public void Initialize()
@@ -31,6 +38,7 @@ namespace Controller
             _killCount = 0;
             _selectStage = 0;
             _score = 0;
+            _stageData = CSVController.LoadCSV("stageData");
         }
 
         public void ResetInstance()
@@ -42,7 +50,6 @@ namespace Controller
         private void Start()
         {
             DontDestroyOnLoad(gameObject);
-            Initialize();
         }
 
         public void SetSelectStage(int stage)

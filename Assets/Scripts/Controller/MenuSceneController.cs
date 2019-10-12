@@ -14,10 +14,11 @@ namespace Controller
 
         private List<StageButton> _stageButtons;
 
+        private int _stageNumber;
+
         [SerializeField] private GameObject stageButtonPrefab = null; //そのうちresourceロードにするかも
         [SerializeField] private GameObject stageSelectZone = null;
         [SerializeField] private Button okButton = null;
-        [SerializeField] private int stageNumber = 1; //何ステージ生成するか
         [SerializeField] float[] xAxises = new float[2];
         [SerializeField] private float yAxisStartPos = 0;
         [SerializeField] private float yAxisDuration = 10;
@@ -31,13 +32,15 @@ namespace Controller
         private void Start()
         {
             SetStageButtons();
+            _stageNumber = DataController.Instance.StageData.Count;
+            Debug.Log($"{_stageNumber}個のステージを作成します。");
             okButton.onClick.AddListener(OnclickOk);
         }
 
         private void SetStageButtons()
         {
-            _stageButtons = new List<StageButton>(stageNumber);
-            for (int i = 0; i < stageNumber; i++)
+            _stageButtons = new List<StageButton>(_stageNumber);
+            for (int i = 0; i < _stageNumber; i++)
             {
                 StageButton stageButtonScript = Instantiate(stageButtonPrefab).GetComponent<StageButton>();
                 stageButtonScript.transform.parent = stageSelectZone.transform;

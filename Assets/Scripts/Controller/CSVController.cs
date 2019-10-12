@@ -28,7 +28,7 @@ namespace Controller
             while (render.Peek() > -1)
             {
                 string line = render.ReadLine();
-                csvDates.Add(line.Split(','));
+                csvDates.Add(line?.Split(','));
             }
 
             return csvDates;
