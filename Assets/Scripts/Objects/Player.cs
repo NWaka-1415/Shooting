@@ -76,6 +76,9 @@ namespace Objects
 
         public void Initialize()
         {
+#if UNITY_ANDROID
+            GameSceneController.Instance.ShootButton.onClick.AddListener(Shoot);
+#endif
             _speed = 0.1f;
             _hp = 100;
             _shotFlag = false;

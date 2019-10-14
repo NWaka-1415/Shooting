@@ -22,12 +22,16 @@ namespace Controller
         [SerializeField] Sprite[] _rockAndPlanetSprites = new Sprite[0];
 
         [SerializeField] private int _enemyNumber = 10;
+        [SerializeField] private GameObject controllerForSmartPhone = null;
         [SerializeField] private GameObject pausePanel = null;
         [SerializeField] private GameObject _gameOverPanel = null;
         [SerializeField] private GameObject _gameClearPanel = null;
 
         [SerializeField] private Button pauseButton = null;
         [SerializeField] private Button okButton = null;
+        [SerializeField] private Button shootButton = null;
+
+        public Button ShootButton => shootButton;
 
         private Camera _camera;
 
@@ -64,6 +68,11 @@ namespace Controller
         // Start is called before the first frame update
         void Start()
         {
+#if UNITY_ANDROID
+            controllerForSmartPhone.SetActive(true);
+#else
+            controllerForSmartPhone.SetActive(false);
+#endif
             _isPause = false;
             _isGameOver = false;
             _isGameClear = false;

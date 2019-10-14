@@ -25,7 +25,8 @@ namespace Controller
         void Update()
         {
             if (_isClicked) return;
-            if (Input.anyKeyDown)
+            if(Input.GetKey(KeyCode.Escape)) Application.Quit();
+            else if (Input.anyKeyDown)
             {
                 //ゲームシーンに遷移
                 RoomController.Instance.GoToRoom(RoomController.Room.Menu);
