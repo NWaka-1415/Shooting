@@ -14,6 +14,7 @@ namespace Objects
 
         private int _hp;
 
+        [SerializeField] private GameObject explosion = null;
         [SerializeField] private GameObject _shotPrefab = null;
 
         /// <summary>
@@ -88,6 +89,7 @@ namespace Objects
             _fadingCount = 0;
             _myColor = spriteRenderer.color;
             _alpha = _myColor.a;
+            explosion.SetActive(false);
             GameSceneController.Instance.SetHitPoint(_hp);
         }
 
@@ -188,6 +190,7 @@ namespace Objects
                 if (_hp <= 0)
                 {
                     _hp = 0;
+                    explosion.SetActive(true);
                     GameSceneController.Instance.GameOver();
                 }
 
