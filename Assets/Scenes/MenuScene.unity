@@ -318,6 +318,7 @@ MonoBehaviour:
   stageSelectZone: {fileID: 2085307545}
   okButton: {fileID: 1391162043}
   backToTitleButton: {fileID: 62708453}
+  infoText: {fileID: 1229795600}
   xAxises:
   - -45
   - 60
@@ -510,7 +511,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u30B9\u30C6\u30FC\u30B8\u306E\u60C5\u5831"
+  m_Text: "\u30B9\u30C6\u30FC\u30B8\u306E\u60C5\u5831\n\n\u4F55\u3092\u8868\u793A\u3059\u308B\u304B\n\n\u6C7A\u3081\u3066\u306A\u3044\u306E\u3067\n\n\u672A\u5B9F\u88C5\u304A\u8A31\u3057\u3092"
 --- !u!222 &1229795601
 CanvasRenderer:
   m_ObjectHideFlags: 0

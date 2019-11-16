@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+using Stage = Stage.Stage;
 
 namespace Controller
 {
@@ -30,6 +31,8 @@ namespace Controller
         [SerializeField] private Button pauseButton = null;
         [SerializeField] private Button okButton = null;
         [SerializeField] private Button shootButton = null;
+
+        [SerializeField] private Player player = null;
 
         public Button ShootButton => shootButton;
 
@@ -59,10 +62,15 @@ namespace Controller
         private List<Enemy> _enemies;
         private List<BackGroundObjects> _backGroundObjects;
 
+        private int _pushedEnemyNumber;
+
+        private global::Stage.Stage _currentStage;
+
         private void Awake()
         {
             if (_instance == null) _instance = this;
             else if (_instance != this) Destroy(this.gameObject);
+            _currentStage = DataController.Instance.Stages[DataController.Instance.SelectStage];
         }
 
         // Start is called before the first frame update
@@ -77,6 +85,7 @@ namespace Controller
             _isGameOver = false;
             _isGameClear = false;
             _time = 0.5f;
+            _pushedEnemyNumber = 0;
             DataController.Instance.ResetInstance();
             pausePanel.SetActive(false);
             _gameOverPanel.SetActive(false);
@@ -122,19 +131,24 @@ namespace Controller
             foreach (Enemy enemy in _enemies)
             {
                 enemy.Initialize(ResetPos());
+                _pushedEnemyNumber++;
             }
         }
 
         private void Update()
         {
             if (_isPause) return;
+
+            DataController.Instance.AddTime();
+            CheckGameClear();
+
             //背景
             for (int i = 0; i < _backGroundImages.Length; i++)
             {
                 if (_backGroundImages[i].transform.position.y <= _bottomCameraWorldPos - 0.5f)
                 {
                     int index = i - 1 >= 0 ? i - 1 : _backGroundImages.Length - 1;
-                    Debug.Log(index);
+//                    Debug.Log(index);
                     _backGroundImages[i].transform.position =
                         _backGroundDefaultPos[index] +
                         new Vector2(0f, _backGroundImages[i].transform.localScale.y);
@@ -159,7 +173,19 @@ namespace Controller
             foreach (Enemy enemy in _enemies)
             {
                 if (enemy.CheckPos(_bottomCameraWorldPos)) GameOver();
-                if (!enemy.gameObject.activeSelf) enemy.Initialize(ResetPos());
+                if (!enemy.gameObject.activeSelf)
+                {
+                    if (_currentStage.ThisStageType == global::Stage.Stage.StageType.KillAll)
+                    {
+                        if (_currentStage.EnemyCount > _pushedEnemyNumber)
+                        {
+                            enemy.Initialize(ResetPos());
+                            _pushedEnemyNumber++;
+//                            Debug.Log(_pushedEnemyNumber);
+                        }
+                    }
+                    else enemy.Initialize(ResetPos());
+                }
             }
 
             //リザルト画面へ遷移
@@ -201,7 +227,32 @@ namespace Controller
         /// </summary>
         private void SetKillCount()
         {
-            killCountText.text = $"{DataController.Instance.KillCount:0000}";
+            switch (_currentStage.ThisStageType)
+            {
+                case global::Stage.Stage.StageType.KillAll:
+                case global::Stage.Stage.StageType.KillCount:
+                    killCountText.text = $"{DataController.Instance.KillCount:0000} / {_currentStage.EnemyCount:0000}";
+                    break;
+                case global::Stage.Stage.StageType.TimeKill:
+                    killCountText.text = $"{DataController.Instance.KillCount:0000}";
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// ゲームクリアしたかどうかをチェック
+        /// </summary>
+        private void CheckGameClear()
+        {
+            switch (_currentStage.ThisStageType)
+            {
+                case global::Stage.Stage.StageType.KillAll:
+                case global::Stage.Stage.StageType.KillCount:
+                    if (_currentStage.EnemyCount <= DataController.Instance.KillCount) GameClear();
+                    break;
+                case global::Stage.Stage.StageType.TimeKill:
+                    break;
+            }
         }
 
         /// <summary>
@@ -234,6 +285,7 @@ namespace Controller
         public void GameClear()
         {
             _isGameClear = true;
+            DataController.Instance.CalcScore(player.Hp);
             _gameClearPanel.SetActive(true);
         }
 

@@ -24,13 +24,15 @@ namespace Stage
             KillAll
         }
 
-        private StageType _stageType;
+        private StageType _thisStageType;
 
-        private int _enemyCount;
+        public StageType ThisStageType => _thisStageType;
+
+        private readonly int _enemyCount;
 
         public int EnemyCount => _enemyCount;
 
-        private int _limitTime;
+        private readonly int _limitTime;
 
         public int LimitTime => _limitTime;
 
@@ -40,7 +42,7 @@ namespace Stage
         public Stage(int stageNumber)
         {
             List<string[]> stageData = DataController.Instance.StageData;
-            Enum.TryParse(stageData[stageNumber][0], out _stageType);
+            Enum.TryParse(stageData[stageNumber][0], out _thisStageType);
             _enemyCount = int.Parse(stageData[stageNumber][1]);
             _limitTime = int.Parse(stageData[stageNumber][2]);
         }

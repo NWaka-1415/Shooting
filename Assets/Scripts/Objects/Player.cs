@@ -14,6 +14,8 @@ namespace Objects
 
         private int _hp;
 
+        public int Hp => _hp;
+
         [SerializeField] private GameObject explosion = null;
         [SerializeField] private GameObject _shotPrefab = null;
 

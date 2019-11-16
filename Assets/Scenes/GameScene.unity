@@ -250,8 +250,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -85.2, y: -0.1800003}
-  m_SizeDelta: {x: 145, y: 86.4}
+  m_AnchoredPosition: {x: -136.4, y: 0.000024796}
+  m_SizeDelta: {x: 248.09, y: 118.48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &335067327
 MonoBehaviour:
@@ -275,7 +275,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 64dd97c320192b04da0fc4bfc0238691, type: 3}
-    m_FontSize: 56
+    m_FontSize: 42
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -1194,6 +1194,7 @@ MonoBehaviour:
   pauseButton: {fileID: 2030526070}
   okButton: {fileID: 352648590}
   shootButton: {fileID: 0}
+  player: {fileID: 4638618511122611826}
 --- !u!4 &1177650314
 Transform:
   m_ObjectHideFlags: 0
@@ -1742,8 +1743,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -121.049805, y: -43.179993}
-  m_SizeDelta: {x: 242.09998, y: 86.359985}
+  m_AnchoredPosition: {x: -160.2, y: -59.24}
+  m_SizeDelta: {x: 320.4, y: 118.48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1931296272
 GameObject:
@@ -2216,3 +2217,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b1c97462abe3df4cb4cb8278079a6b5, type: 3}
+--- !u!114 &4638618511122611826 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4638618512559529075, guid: 1b1c97462abe3df4cb4cb8278079a6b5,
+    type: 3}
+  m_PrefabInstance: {fileID: 4638618511122611825}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d1f3560c7b6ae745a86195aa8da997b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -20,6 +20,7 @@ namespace Controller
         [SerializeField] private GameObject stageSelectZone = null;
         [SerializeField] private Button okButton = null;
         [SerializeField] private Button backToTitleButton = null;
+        [SerializeField] private Text infoText = null;
         [SerializeField] float[] xAxises = new float[2];
         [SerializeField] private float yAxisStartPos = 0;
         [SerializeField] private float yAxisDuration = 10;
@@ -37,6 +38,7 @@ namespace Controller
             SetStageButtons();
             okButton.onClick.AddListener(OnclickOk);
             backToTitleButton.onClick.AddListener(OnclickBack);
+            SetInfoText();
         }
 
         private void SetStageButtons()
@@ -55,10 +57,18 @@ namespace Controller
         public void SelectStageButton(int stage)
         {
             DataController.Instance.SetSelectStage(stage);
+            SetInfoText();
             foreach (StageButton stageButton in _stageButtons)
             {
                 if (stageButton.StageNumber != stage) stageButton.Select(false);
             }
+        }
+
+        private void SetInfoText()
+        {
+            infoText.text = $"Stage{DataController.Instance.SelectStage}" +
+                            $"\nStage Type: {DataController.Instance.Stages[DataController.Instance.SelectStage].ThisStageType}";
+            
         }
 
         private void OnclickOk()
