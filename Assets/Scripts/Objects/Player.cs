@@ -74,6 +74,7 @@ namespace Objects
 
             if (Input.GetKey(KeyCode.Space)) Shoot();
 
+            else if(Input.GetKeyUp(KeyCode.B)) Bomb();
             #endregion
         }
 
@@ -115,6 +116,12 @@ namespace Objects
             //ポジションをShooterにする
             bulletInstanceScript.Initialize(transform.position);
             _shotFlag = true;
+        }
+
+        private void Bomb()
+        {
+            if(GameSceneController.Instance.IsGameOver) return;
+            
         }
 
         protected void Move(Direction direction)
