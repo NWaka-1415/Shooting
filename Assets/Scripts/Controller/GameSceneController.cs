@@ -45,6 +45,7 @@ namespace Controller
         private bool _isGameOver;
         public bool IsGameOver => _isGameOver;
         private bool _isGameClear;
+        public bool IsGameClear => _isGameClear;
 
         private bool _isPause;
 

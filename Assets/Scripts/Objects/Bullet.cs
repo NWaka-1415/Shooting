@@ -23,6 +23,7 @@ namespace Objects
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (GameSceneController.Instance.IsGameOver || GameSceneController.Instance.IsGameClear) return;
             if (transform.position.y >= GameSceneController.Instance.TopCameraWorldPos) return;
             if (other.CompareTag("Enemy"))
             {
