@@ -36,6 +36,10 @@ namespace Stage
 
         public int LimitTime => _limitTime;
 
+        private int _enemyNumberOnDisplay;
+
+        public int EnemyNumberOnDisplay => _enemyNumberOnDisplay;
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -45,6 +49,7 @@ namespace Stage
             Enum.TryParse(stageData[stageNumber][0], out _thisStageType);
             _enemyCount = int.Parse(stageData[stageNumber][1]);
             _limitTime = int.Parse(stageData[stageNumber][2]);
+            _enemyNumberOnDisplay = int.Parse(stageData[stageNumber][3]);
         }
     }
 }

@@ -1,3 +1,6 @@
-KillCount,25,0
-KillAll  ,30,0
-KiiCount ,75,0
+KillCount,25 ,0,10
+KillAll  ,30 ,0,10
+KillCount,75 ,0,15
+KillCount,80 ,0,15
+KillAll  ,100,0,20
+KillCount,120,0,25

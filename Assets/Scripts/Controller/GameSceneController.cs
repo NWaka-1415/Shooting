@@ -72,6 +72,7 @@ namespace Controller
             if (_instance == null) _instance = this;
             else if (_instance != this) Destroy(this.gameObject);
             _currentStage = DataController.Instance.Stages[DataController.Instance.SelectStage];
+            _enemyNumber = _currentStage.EnemyNumberOnDisplay;
         }
 
         // Start is called before the first frame update
@@ -115,7 +116,7 @@ namespace Controller
             for (int i = 0; i < _enemyNumber; i++)
             {
                 Enemy enemy = Instantiate(_enemyPrefab).GetComponent<Enemy>();
-                enemy.Initialize(ResetPos());
+                enemy.Initialize(ResetPos()).SetSpeed(_currentStage.EnemyNumberOnDisplay / 10f);
                 _enemies.Add(enemy);
             }
 
